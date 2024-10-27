@@ -29,7 +29,7 @@ jobs:
 
       - name: Push to NuGet
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ secrets.NUGET_APIKEY }}
         run: |
           if [ "${{ github.ref }}" == "refs/heads/main" ]; then
             dotnet nuget push ./output/*.nupkg -k $NUGET_APIKEY -s https://api.nuget.org/v3/index.json
