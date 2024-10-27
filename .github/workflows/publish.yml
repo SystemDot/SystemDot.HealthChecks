@@ -30,5 +30,6 @@ jobs:
       - name: Push to NuGet
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_APIKEY }}
+        working-directory: SystemDot.HealthChecks/SystemDot.HealthChecks/output
         run: |
-          dotnet nuget push ./SystemDot.HealthChecks/SystemDot.HealthChecks/output/*.nupkg -k $NUGET_APIKEY -s https://api.nuget.org/v3/index.json
+          dotnet nuget push "*.nupkg" -k $NUGET_APIKEY -s https://api.nuget.org/v3/index.json
