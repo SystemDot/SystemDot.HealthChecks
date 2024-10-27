@@ -31,4 +31,4 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_APIKEY }}
         run: |
-          dotnet nuget push ./output/*.nupkg -k $NUGET_APIKEY -s https://api.nuget.org/v3/index.json
+          dotnet nuget push ./SystemDot.HealthChecks/SystemDot.HealthChecks/output/*.nupkg -k $NUGET_APIKEY -s https://api.nuget.org/v3/index.json
