@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-SystemDot.HealthChecks.WorkerService.Example-71dca269-3a82-42ce-a1bd-1aba92605773</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.10" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SystemDot.Hosting.Diagnostics.HealthChecks\SystemDot.Hosting.Diagnostics.HealthChecks.csproj" />
+    </ItemGroup>
+</Project>
