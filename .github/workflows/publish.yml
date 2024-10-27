@@ -1,0 +1,38 @@
+name: Deploy to NuGet
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'  # Specify your .NET version
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Pack
+        run: dotnet pack ./SystemDot.Hosting.Diagnostics.HealthChecks/SystemDot.Hosting.Diagnostics.HealthChecks.csproj --configuration Release --no-build --output ./output
+
+      - name: Push to NuGet
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            dotnet nuget push ./output/*.nupkg -k $NUGET_APIKEY -s https://api.nuget.org/v3/index.json
+          else
+            dotnet nuget push ./output/*.nupkg -k NUGET_APIKEY -s https://www.myget.org/F/preview/api/v3/index.json
+          fi
