@@ -29,7 +29,7 @@ jobs:
 
       - name: Push to NuGet
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_APIKEY }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         working-directory: output
         run: |
           dotnet nuget push "*.nupkg" -k NUGET_API_KEY -s https://api.nuget.org/v3/index.json
