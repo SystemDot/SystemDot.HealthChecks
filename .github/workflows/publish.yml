@@ -31,8 +31,4 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_APIKEY }}
         run: |
-          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            dotnet nuget push ./output/*.nupkg -k $NUGET_APIKEY -s https://api.nuget.org/v3/index.json
-          else
-            dotnet nuget push ./output/*.nupkg -k NUGET_APIKEY -s https://www.myget.org/F/preview/api/v3/index.json
-          fi
+          dotnet nuget push ./output/*.nupkg -k $NUGET_APIKEY -s https://api.nuget.org/v3/index.json
