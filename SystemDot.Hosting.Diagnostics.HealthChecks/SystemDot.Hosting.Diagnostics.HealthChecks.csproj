@@ -11,7 +11,7 @@
         <Version>1.0.1-beta</Version>
         <Authors>James Goodenough, Chris Sampson</Authors>
         <PackageDescription>Health Checks exposed by TCP</PackageDescription>
-        <PackageTags>dotnet-worker dotnet-background-service health-checks health-probe tcp kubernetes</PackageTags>
+        <PackageTags>Worker Background-Service Diagnostics Health-Checks Health-Probe Kubernetes-Health-Probe Kubernetes-TCP-Health-Probe Kubernetes-Startup-Readiness-Liveness-Probe</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Company>SystemDot</Company>
     </PropertyGroup>
