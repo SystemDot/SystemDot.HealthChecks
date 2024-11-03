@@ -27,18 +27,42 @@ public sealed class HealthCheckTcpListenerBackgroundService : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("Health Check Tcp Listener starting.");
-        
-        await Task.Yield();
-        _tcpListener.Start();
-        
-        while (!stoppingToken.IsCancellationRequested)
+
+        try
         {
-            await CheckHealthReportAsync(stoppingToken);
-            Thread.Sleep(_options.UpdateHeartbeatInterval);
+            await Task.Yield();
+            _tcpListener.Start();
+
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await CheckHealthReportAsync(stoppingToken);
+                Thread.Sleep(_options.UpdateHeartbeatInterval);
+            }
+
+            _tcpListener.Stop();
         }
-        
-        _tcpListener.Stop();
-        
+        catch (SocketException e)
+            when (e.SocketErrorCode is SocketError.AccessDenied or SocketError.AddressAlreadyInUse)
+        {
+            _logger.LogError(
+                e,
+                "SocketErrorCode: \"{socketErrorCode}\" for the configured port: \"{port}\". " +
+                "This is probably due to another application using this port. " +
+                "Ensure an unused port is configured. " +
+                "The behavior of whether an exception in a BackgroundService stops the Host can be configured using HostOptions.BackgroundServiceExceptionBehavior.",
+                e.SocketErrorCode,
+                _options.Port);
+            throw;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(
+                e,
+                "An error occurred starting the BackgroundService." +
+                "The behavior of whether an exception in a BackgroundService stops the Host can be configured using HostOptions.BackgroundServiceExceptionBehavior.");
+            throw;
+        }
+
         _logger.LogInformation("Health Check Tcp Listener ending.");
     }
 
